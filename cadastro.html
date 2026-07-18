@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="apple-touch-icon" href="img/favicon.png">
+
+    <meta name="description" content="Cadastre uma nova receita com ingredientes, tempo, porções, imagem e modo de preparo.">
+    <meta name="author" content="Kaleo Cordeiro">
+
+    <title>Cadastrar receita | Receitas Simples e Saudáveis</title>
+</head>
+
+<body class="min-h-screen bg-stone-50 font-sans text-stone-800">
+    <header class="sticky top-0 z-50 border-b border-stone-200 bg-white/95 shadow-sm backdrop-blur">
+        <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 lg:px-6">
+            <a href="index.html" class="flex items-center gap-3" aria-label="Página inicial">
+                <img
+                    src="img/imagem_logo_reajustada.png"
+                    alt="Receitas Simples e Saudáveis"
+                    class="h-auto w-20 lg:w-24"
+                >
+                <span class="hidden text-lg font-extrabold text-lime-800 sm:block">Receitas Saudáveis</span>
+            </a>
+
+            <nav class="flex items-center gap-2 sm:gap-3">
+                <a href="index.html#receitas" class="inline-flex items-center gap-2 rounded-xl border border-stone-300 px-3 py-2 font-bold text-stone-700 transition hover:border-lime-700 hover:text-lime-800 sm:px-4">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span class="hidden sm:inline">Ver receitas</span>
+                </a>
+                <a href="index.html" class="inline-flex items-center gap-2 rounded-xl bg-lime-700 px-3 py-2 font-bold text-white transition hover:bg-lime-800 sm:px-4">
+                    <i class="fa-solid fa-house"></i>
+                    <span class="hidden sm:inline">Início</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="mx-auto max-w-6xl px-4 py-8 lg:px-6 lg:py-12">
+        <section class="mb-8 overflow-hidden rounded-3xl bg-lime-800 px-6 py-8 text-white shadow-lg sm:px-8 lg:px-10">
+            <div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                <div class="max-w-3xl">
+                    <p class="text-sm font-extrabold uppercase tracking-[0.22em] text-orange-300">Nova receita</p>
+                    <h1 class="mt-2 text-3xl font-black sm:text-4xl lg:text-5xl">Cadastrar receita</h1>
+                    <p class="mt-3 max-w-2xl leading-relaxed text-lime-100">
+                        Preencha os dados abaixo. Ao enviar, a página fará uma requisição <strong>POST</strong> para a API de receitas.
+                    </p>
+                </div>
+                <div class="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-white/15 text-4xl">
+                    <i class="fa-solid fa-utensils"></i>
+                </div>
+            </div>
+        </section>
+
+        <div id="form-status" class="mb-6" role="status" aria-live="polite"></div>
+
+        <form id="recipe-form" class="grid gap-8 lg:grid-cols-[1.25fr_0.75fr]" novalidate>
+            <div class="space-y-8">
+                <section class="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
+                    <div class="mb-6 flex items-center gap-3">
+                        <span class="flex h-11 w-11 items-center justify-center rounded-full bg-lime-100 text-lime-700">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </span>
+                        <div>
+                            <h2 class="text-2xl font-black text-stone-950">Informações principais</h2>
+                            <p class="text-sm text-stone-500">Identificação, categoria e rendimento.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid gap-5 sm:grid-cols-2">
+                        <label class="sm:col-span-2">
+                            <span class="mb-2 block font-bold text-stone-800">Título da receita *</span>
+                            <input
+                                id="titulo"
+                                name="titulo"
+                                type="text"
+                                required
+                                minlength="3"
+                                maxlength="120"
+                                placeholder="Ex.: Bolo de banana com aveia"
+                                class="h-12 w-full rounded-xl border border-stone-300 px-4 outline-none transition focus:border-lime-700 focus:ring-4 focus:ring-lime-100"
+                            >
+                            <span class="field-error mt-1 hidden text-sm font-semibold text-red-600" data-error-for="titulo"></span>
+                        </label>
+
+                        <label>
+                            <span class="mb-2 block font-bold text-stone-800">Categoria *</span>
+                            <input
+                                id="categoria"
+                                name="categoria"
+                                type="text"
+                                list="category-options"
+                                required
+                                minlength="2"
+                                maxlength="60"
+                                placeholder="Ex.: Sobremesas"
+                                class="h-12 w-full rounded-xl border border-stone-300 px-4 outline-none transition focus:border-lime-700 focus:ring-4 focus:ring-lime-100"
+                            >
+                            <datalist id="category-options">
+                                <option value="Acompanhamentos"></option>
+                                <option value="Bebidas"></option>
+                                <option value="Café da Manhã"></option>
+                                <option value="Entradas"></option>
+                                <option value="Lanches"></option>
+                                <option value="Pratos Principais"></option>
+                                <option value="Sobremesas"></option>
+                            </datalist>
+                            <span class="field-error mt-1 hidden text-sm font-semibold text-red-600" data-error-for="categoria"></span>
+                        </label>
+
+                        <label>
+                            <span class="mb-2 block font-bold text-stone-800">URL da imagem *</span>
+                            <input
+                                id="imagem_url"
+                                name="imagem_url"
+                                type="url"
+                                required
+                                placeholder="https://exemplo.com/imagem.jpg"
+                                class="h-12 w-full rounded-xl border border-stone-300 px-4 outline-none transition focus:border-lime-700 focus:ring-4 focus:ring-lime-100"
+                            >
+                            <span class="field-error mt-1 hidden text-sm font-semibold text-red-600" data-error-for="imagem_url"></span>
+                        </label>
+
+                        <label>
+                            <span class="mb-2 block font-bold text-stone-800">Tempo estimado (minutos) *</span>
+                            <input
+                                id="tempo_estimado_minutos"
+                                name="tempo_estimado_minutos"
+                                type="number"
+                                required
+                                min="1"
+                                max="1440"
+                                inputmode="numeric"
+                                placeholder="30"
+                                class="h-12 w-full rounded-xl border border-stone-300 px-4 outline-none transition focus:border-lime-700 focus:ring-4 focus:ring-lime-100"
+                            >
+                            <span class="field-error mt-1 hidden text-sm font-semibold text-red-600" data-error-for="tempo_estimado_minutos"></span>
+                        </label>
+
+                        <label>
+                            <span class="mb-2 block font-bold text-stone-800">Porções *</span>
+                            <input
+                                id="porcoes"
+                                name="porcoes"
+                                type="number"
+                                required
+                                min="1"
+                                max="1000"
+                                inputmode="numeric"
+                                placeholder="4"
+                                class="h-12 w-full rounded-xl border border-stone-300 px-4 outline-none transition focus:border-lime-700 focus:ring-4 focus:ring-lime-100"
+                            >
+                            <span class="field-error mt-1 hidden text-sm font-semibold text-red-600" data-error-for="porcoes"></span>
+                        </label>
+                    </div>
+                </section>
+
+                <section class="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
+                    <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="flex h-11 w-11 items-center justify-center rounded-full bg-orange-100 text-orange-600">
+                                <i class="fa-solid fa-basket-shopping"></i>
+                            </span>
+                            <div>
+                                <h2 class="text-2xl font-black text-stone-950">Ingredientes</h2>
+                                <p class="text-sm text-stone-500">Adicione um ingrediente por campo.</p>
+                            </div>
+                        </div>
+                        <button
+                            id="add-ingredient"
+                            type="button"
+                            class="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-orange-500 px-5 font-extrabold text-white transition hover:bg-orange-600"
+                        >
+                            <i class="fa-solid fa-plus"></i>
+                            Adicionar ingrediente
+                        </button>
+                    </div>
+
+                    <div id="ingredients-list" class="space-y-3"></div>
+                    <p id="ingredients-error" class="mt-2 hidden text-sm font-semibold text-red-600"></p>
+                </section>
+
+                <section class="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
+                    <div class="mb-6 flex items-center gap-3">
+                        <span class="flex h-11 w-11 items-center justify-center rounded-full bg-stone-100 text-stone-700">
+                            <i class="fa-solid fa-list-ol"></i>
+                        </span>
+                        <div>
+                            <h2 class="text-2xl font-black text-stone-950">Modo de preparo</h2>
+                            <p class="text-sm text-stone-500">Descreva o preparo em ordem clara.</p>
+                        </div>
+                    </div>
+
+                    <label>
+                        <span class="sr-only">Modo de preparo</span>
+                        <textarea
+                            id="modo_de_preparo"
+                            name="modo_de_preparo"
+                            required
+                            minlength="10"
+                            rows="9"
+                            placeholder="Ex.: Em uma tigela, misture os ingredientes..."
+                            class="w-full resize-y rounded-xl border border-stone-300 p-4 leading-relaxed outline-none transition focus:border-lime-700 focus:ring-4 focus:ring-lime-100"
+                        ></textarea>
+                        <div class="mt-1 flex items-center justify-between gap-4">
+                            <span class="field-error hidden text-sm font-semibold text-red-600" data-error-for="modo_de_preparo"></span>
+                            <span id="preparation-count" class="ml-auto text-xs font-semibold text-stone-400">0 caracteres</span>
+                        </div>
+                    </label>
+                </section>
+            </div>
+
+            <aside class="space-y-6 lg:sticky lg:top-28 lg:self-start">
+                <section class="overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-sm">
+                    <div class="relative h-64 bg-stone-200">
+                        <img
+                            id="image-preview"
+                            alt="Prévia da imagem da receita"
+                            class="hidden h-full w-full object-cover"
+                        >
+                        <div id="image-placeholder" class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center text-stone-500">
+                            <i class="fa-regular fa-image text-5xl text-stone-300"></i>
+                            <p class="mt-3 font-bold">Prévia da imagem</p>
+                            <p class="mt-1 text-sm">Informe uma URL válida para visualizar.</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-orange-500">Pré-visualização</p>
+                        <h2 id="preview-title" class="mt-2 text-2xl font-black text-stone-950">Título da receita</h2>
+                        <div class="mt-4 flex flex-wrap gap-2 text-sm font-bold">
+                            <span id="preview-category" class="rounded-full bg-lime-100 px-3 py-1 text-lime-800">Categoria</span>
+                            <span id="preview-time" class="rounded-full bg-stone-100 px-3 py-1 text-stone-700">-- min</span>
+                            <span id="preview-servings" class="rounded-full bg-orange-100 px-3 py-1 text-orange-800">-- porções</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm">
+                    <h2 class="text-xl font-black text-stone-950">Enviar para a API</h2>
+                    <p class="mt-2 text-sm leading-relaxed text-stone-600">
+                        Os dados serão enviados em JSON para:
+                    </p>
+                    <code class="mt-3 block break-all rounded-xl bg-stone-100 p-3 text-xs font-bold text-lime-800">https://receitas-brc6.onrender.com/receitas</code>
+
+                    <div class="mt-6 grid gap-3">
+                        <button
+                            id="submit-button"
+                            type="submit"
+                            class="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-lime-700 px-5 font-extrabold text-white transition hover:bg-lime-800 disabled:cursor-not-allowed disabled:opacity-60"
+                        >
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <span>Cadastrar receita</span>
+                        </button>
+                        <button
+                            id="clear-button"
+                            type="button"
+                            class="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-stone-300 px-5 font-extrabold text-stone-700 transition hover:bg-stone-100"
+                        >
+                            <i class="fa-solid fa-eraser"></i>
+                            Limpar formulário
+                        </button>
+                    </div>
+                </section>
+            </aside>
+        </form>
+    </main>
+
+    <footer class="mt-8 border-t border-stone-200 bg-white">
+        <div class="mx-auto max-w-6xl px-4 py-6 text-center text-sm text-stone-500 lg:px-6">
+            Receitas Simples e Saudáveis — compartilhe seus melhores sabores.
+        </div>
+    </footer>
+
+    <script>
+        const API_URL = 'https://receitas-brc6.onrender.com/receitas';
+
+        const form = document.getElementById('recipe-form');
+        const statusContainer = document.getElementById('form-status');
+        const ingredientsList = document.getElementById('ingredients-list');
+        const ingredientsError = document.getElementById('ingredients-error');
+        const addIngredientButton = document.getElementById('add-ingredient');
+        const submitButton = document.getElementById('submit-button');
+        const clearButton = document.getElementById('clear-button');
+        const imageInput = document.getElementById('imagem_url');
+        const imagePreview = document.getElementById('image-preview');
+        const imagePlaceholder = document.getElementById('image-placeholder');
+        const preparationInput = document.getElementById('modo_de_preparo');
+        const preparationCount = document.getElementById('preparation-count');
+
+        const previewTitle = document.getElementById('preview-title');
+        const previewCategory = document.getElementById('preview-category');
+        const previewTime = document.getElementById('preview-time');
+        const previewServings = document.getElementById('preview-servings');
+
+        function createIngredientField(value = '') {
+            const row = document.createElement('div');
+            row.className = 'ingredient-row flex items-start gap-2';
+
+            const position = document.createElement('span');
+            position.className = 'ingredient-number mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lime-100 font-black text-lime-800';
+
+            const inputWrapper = document.createElement('div');
+            inputWrapper.className = 'min-w-0 flex-1';
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'ingredientes[]';
+            input.required = true;
+            input.minLength = 2;
+            input.maxLength = 180;
+            input.placeholder = 'Ex.: 2 bananas médias maduras';
+            input.value = value;
+            input.className = 'ingredient-input h-12 w-full rounded-xl border border-stone-300 px-4 outline-none transition focus:border-lime-700 focus:ring-4 focus:ring-lime-100';
+            input.addEventListener('input', () => {
+                clearIngredientsError();
+                input.classList.remove('border-red-500', 'ring-4', 'ring-red-100');
+            });
+
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.className = 'remove-ingredient mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-red-200 text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-40';
+            removeButton.setAttribute('aria-label', 'Remover ingrediente');
+            removeButton.innerHTML = '<i class="fa-solid fa-trash"></i>';
+            removeButton.addEventListener('click', () => {
+                row.remove();
+                ensureMinimumIngredientFields();
+                updateIngredientNumbers();
+            });
+
+            inputWrapper.append(input);
+            row.append(position, inputWrapper, removeButton);
+            ingredientsList.append(row);
+            updateIngredientNumbers();
+
+            return input;
+        }
+
+        function updateIngredientNumbers() {
+            const rows = [...document.querySelectorAll('.ingredient-row')];
+            rows.forEach((row, index) => {
+                row.querySelector('.ingredient-number').textContent = index + 1;
+                row.querySelector('.remove-ingredient').disabled = rows.length <= 1;
+            });
+        }
+
+        function ensureMinimumIngredientFields() {
+            if (!document.querySelector('.ingredient-row')) {
+                createIngredientField();
+            }
+        }
+
+        function clearIngredientsError() {
+            ingredientsError.textContent = '';
+            ingredientsError.classList.add('hidden');
+        }
+
+        function setIngredientsError(message) {
+            ingredientsError.textContent = message;
+            ingredientsError.classList.remove('hidden');
+        }
+
+        function setStatus(type, title, message, recipeId = null) {
+            const styles = {
+                success: {
+                    wrapper: 'border-green-200 bg-green-50 text-green-900',
+                    icon: 'fa-circle-check text-green-600'
+                },
+                error: {
+                    wrapper: 'border-red-200 bg-red-50 text-red-900',
+                    icon: 'fa-triangle-exclamation text-red-600'
+                },
+                loading: {
+                    wrapper: 'border-lime-200 bg-lime-50 text-lime-950',
+                    icon: 'fa-circle-notch fa-spin text-lime-700'
+                }
+            };
+
+            const style = styles[type] || styles.error;
+            const box = document.createElement('div');
+            box.className = `rounded-2xl border p-5 shadow-sm ${style.wrapper}`;
+
+            const content = document.createElement('div');
+            content.className = 'flex items-start gap-3';
+
+            const icon = document.createElement('i');
+            icon.className = `fa-solid ${style.icon} mt-1 text-xl`;
+
+            const text = document.createElement('div');
+            text.className = 'min-w-0 flex-1';
+
+            const heading = document.createElement('h2');
+            heading.className = 'font-black';
+            heading.textContent = title;
+
+            const paragraph = document.createElement('p');
+            paragraph.className = 'mt-1 break-words text-sm leading-relaxed';
+            paragraph.textContent = message;
+
+            text.append(heading, paragraph);
+
+            if (recipeId !== null && recipeId !== undefined) {
+                const actions = document.createElement('div');
+                actions.className = 'mt-4 flex flex-wrap gap-3';
+
+                const detailsLink = document.createElement('a');
+                detailsLink.href = `receita.html?id=${encodeURIComponent(recipeId)}`;
+                detailsLink.className = 'inline-flex items-center gap-2 rounded-xl bg-green-700 px-4 py-2 text-sm font-extrabold text-white hover:bg-green-800';
+                detailsLink.innerHTML = '<i class="fa-solid fa-eye"></i><span>Ver receita cadastrada</span>';
+
+                const recipesLink = document.createElement('a');
+                recipesLink.href = 'index.html#receitas';
+                recipesLink.className = 'inline-flex items-center gap-2 rounded-xl border border-green-300 px-4 py-2 text-sm font-extrabold text-green-800 hover:bg-green-100';
+                recipesLink.innerHTML = '<i class="fa-solid fa-list"></i><span>Voltar à listagem</span>';
+
+                actions.append(detailsLink, recipesLink);
+                text.append(actions);
+            }
+
+            content.append(icon, text);
+            box.append(content);
+            statusContainer.replaceChildren(box);
+            statusContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function clearFieldErrors() {
+            document.querySelectorAll('.field-error').forEach((element) => {
+                element.textContent = '';
+                element.classList.add('hidden');
+            });
+
+            form.querySelectorAll('input, textarea').forEach((field) => {
+                field.classList.remove('border-red-500', 'ring-4', 'ring-red-100');
+            });
+
+            clearIngredientsError();
+        }
+
+        function showFieldError(field, message) {
+            const error = document.querySelector(`[data-error-for="${field.id}"]`);
+            field.classList.add('border-red-500', 'ring-4', 'ring-red-100');
+            if (error) {
+                error.textContent = message;
+                error.classList.remove('hidden');
+            }
+        }
+
+        function validateForm() {
+            clearFieldErrors();
+            let valid = true;
+
+            const fields = [
+                document.getElementById('titulo'),
+                document.getElementById('categoria'),
+                document.getElementById('imagem_url'),
+                document.getElementById('tempo_estimado_minutos'),
+                document.getElementById('porcoes'),
+                preparationInput
+            ];
+
+            fields.forEach((field) => {
+                if (!field.checkValidity()) {
+                    valid = false;
+                    let message = 'Preencha este campo corretamente.';
+                    if (field.validity.valueMissing) message = 'Este campo é obrigatório.';
+                    else if (field.validity.tooShort) message = `Digite pelo menos ${field.minLength} caracteres.`;
+                    else if (field.validity.typeMismatch) message = 'Digite uma URL válida iniciada por http:// ou https://.';
+                    else if (field.validity.rangeUnderflow) message = `O valor mínimo é ${field.min}.`;
+                    else if (field.validity.rangeOverflow) message = `O valor máximo é ${field.max}.`;
+                    showFieldError(field, message);
+                }
+            });
+
+            const ingredientInputs = [...document.querySelectorAll('.ingredient-input')];
+            const ingredients = ingredientInputs.map((input) => input.value.trim()).filter(Boolean);
+
+            if (!ingredients.length) {
+                valid = false;
+                setIngredientsError('Adicione pelo menos um ingrediente.');
+            }
+
+            ingredientInputs.forEach((input) => {
+                if (!input.value.trim() || input.value.trim().length < 2) {
+                    valid = false;
+                    input.classList.add('border-red-500', 'ring-4', 'ring-red-100');
+                    setIngredientsError('Todos os ingredientes precisam ser preenchidos.');
+                }
+            });
+
+            if (!valid) {
+                const firstInvalid = form.querySelector('.border-red-500');
+                firstInvalid?.focus();
+            }
+
+            return valid;
+        }
+
+        function getPayload() {
+            return {
+                titulo: document.getElementById('titulo').value.trim(),
+                categoria: document.getElementById('categoria').value.trim(),
+                ingredientes: [...document.querySelectorAll('.ingredient-input')]
+                    .map((input) => input.value.trim())
+                    .filter(Boolean),
+                tempo_estimado_minutos: Number(document.getElementById('tempo_estimado_minutos').value),
+                porcoes: Number(document.getElementById('porcoes').value),
+                imagem_url: imageInput.value.trim(),
+                modo_de_preparo: preparationInput.value.trim()
+            };
+        }
+
+        async function parseResponse(response) {
+            const text = await response.text();
+            if (!text) return null;
+
+            try {
+                return JSON.parse(text);
+            } catch {
+                return { message: text };
+            }
+        }
+
+        function getApiErrorMessage(data, response) {
+            if (typeof data === 'string') return data;
+            if (data?.detail) {
+                if (Array.isArray(data.detail)) {
+                    return data.detail.map((item) => item.msg || JSON.stringify(item)).join(' ');
+                }
+                return String(data.detail);
+            }
+            if (data?.message) return String(data.message);
+            if (data?.erro) return String(data.erro);
+            return `A API respondeu com o status ${response.status}.`;
+        }
+
+        function setSubmitting(isSubmitting) {
+            submitButton.disabled = isSubmitting;
+            clearButton.disabled = isSubmitting;
+            addIngredientButton.disabled = isSubmitting;
+
+            submitButton.innerHTML = isSubmitting
+                ? '<i class="fa-solid fa-circle-notch fa-spin"></i><span>Enviando...</span>'
+                : '<i class="fa-solid fa-cloud-arrow-up"></i><span>Cadastrar receita</span>';
+        }
+
+        function resetForm() {
+            form.reset();
+            ingredientsList.replaceChildren();
+            createIngredientField();
+            createIngredientField();
+            clearFieldErrors();
+            statusContainer.replaceChildren();
+            updatePreview();
+            updatePreparationCount();
+            document.getElementById('titulo').focus();
+        }
+
+        function updatePreview() {
+            const title = document.getElementById('titulo').value.trim();
+            const category = document.getElementById('categoria').value.trim();
+            const time = document.getElementById('tempo_estimado_minutos').value;
+            const servings = document.getElementById('porcoes').value;
+
+            previewTitle.textContent = title || 'Título da receita';
+            previewCategory.textContent = category || 'Categoria';
+            previewTime.textContent = time ? `${time} min` : '-- min';
+            previewServings.textContent = servings
+                ? `${servings} ${Number(servings) === 1 ? 'porção' : 'porções'}`
+                : '-- porções';
+        }
+
+        function updateImagePreview() {
+            const value = imageInput.value.trim();
+
+            if (!value) {
+                imagePreview.removeAttribute('src');
+                imagePreview.classList.add('hidden');
+                imagePlaceholder.classList.remove('hidden');
+                return;
+            }
+
+            try {
+                const url = new URL(value);
+                if (!['http:', 'https:'].includes(url.protocol)) throw new Error('Protocolo inválido');
+
+                imagePreview.src = url.href;
+                imagePreview.classList.remove('hidden');
+                imagePlaceholder.classList.add('hidden');
+            } catch {
+                imagePreview.removeAttribute('src');
+                imagePreview.classList.add('hidden');
+                imagePlaceholder.classList.remove('hidden');
+            }
+        }
+
+        function updatePreparationCount() {
+            const total = preparationInput.value.length;
+            preparationCount.textContent = `${total} ${total === 1 ? 'caractere' : 'caracteres'}`;
+        }
+
+        addIngredientButton.addEventListener('click', () => {
+            const input = createIngredientField();
+            input.focus();
+        });
+
+        clearButton.addEventListener('click', () => {
+            const hasContent = [...form.elements].some((element) => {
+                return ['INPUT', 'TEXTAREA'].includes(element.tagName) && element.value.trim();
+            });
+
+            if (!hasContent || window.confirm('Deseja realmente apagar todos os dados preenchidos?')) {
+                resetForm();
+            }
+        });
+
+        imageInput.addEventListener('input', () => {
+            updatePreview();
+            updateImagePreview();
+        });
+
+        imagePreview.addEventListener('error', () => {
+            imagePreview.classList.add('hidden');
+            imagePlaceholder.classList.remove('hidden');
+        });
+
+        ['titulo', 'categoria', 'tempo_estimado_minutos', 'porcoes'].forEach((id) => {
+            document.getElementById(id).addEventListener('input', updatePreview);
+        });
+
+        preparationInput.addEventListener('input', updatePreparationCount);
+
+        form.addEventListener('input', (event) => {
+            const field = event.target;
+            if (!(field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement)) return;
+
+            field.classList.remove('border-red-500', 'ring-4', 'ring-red-100');
+            const error = document.querySelector(`[data-error-for="${field.id}"]`);
+            if (error) {
+                error.textContent = '';
+                error.classList.add('hidden');
+            }
+        });
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            statusContainer.replaceChildren();
+
+            if (!validateForm()) {
+                setStatus('error', 'Revise os dados', 'Existem campos obrigatórios que precisam ser corrigidos antes do envio.');
+                return;
+            }
+
+            const payload = getPayload();
+            setSubmitting(true);
+            setStatus('loading', 'Enviando receita', 'Aguarde enquanto os dados são enviados para a API.');
+
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 25000);
+
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload),
+                    signal: controller.signal
+                });
+
+                clearTimeout(timeoutId);
+                const data = await parseResponse(response);
+
+                if (!response.ok) {
+                    throw new Error(getApiErrorMessage(data, response));
+                }
+
+                const recipeId = data?.id ?? null;
+                setStatus(
+                    'success',
+                    'Receita cadastrada com sucesso!',
+                    recipeId !== null
+                        ? `A API criou a receita com o ID ${recipeId}.`
+                        : 'A API confirmou o cadastro da nova receita.',
+                    recipeId
+                );
+
+                form.reset();
+                ingredientsList.replaceChildren();
+                createIngredientField();
+                createIngredientField();
+                clearFieldErrors();
+                updatePreview();
+                updateImagePreview();
+                updatePreparationCount();
+            } catch (error) {
+                console.error('Erro ao cadastrar receita:', error);
+
+                let message = error.message || 'Não foi possível cadastrar a receita.';
+                if (error.name === 'AbortError') {
+                    message = 'A requisição demorou mais que o esperado. Tente novamente em alguns instantes.';
+                } else if (error instanceof TypeError) {
+                    message = 'Não foi possível acessar a API pelo navegador. Verifique sua internet, se o servidor está ativo e se o CORS permite requisições POST.';
+                }
+
+                setStatus('error', 'Falha ao cadastrar a receita', message);
+            } finally {
+                setSubmitting(false);
+            }
+        });
+
+        createIngredientField();
+        createIngredientField();
+        updatePreview();
+        updateImagePreview();
+        updatePreparationCount();
+    </script>
+</body>
+</html>
