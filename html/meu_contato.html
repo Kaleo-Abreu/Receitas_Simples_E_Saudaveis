@@ -75,88 +75,17 @@
 
 
 
-                <nav id="menu" class="hidden lg:block">
-
-                    <ul class="flex flex-row items-center gap-5 text-xl font-semibold">
-
-
-                        <li>
-                            <a href="../index.html" class="hover:text-orange-400">
-                                INICIO
-                            </a>
-                        </li>
-
-                        <li class="hover:text-orange-400">
-                            <p>
-                                |
-                            </p>
-                        </li>
-
-
-                        <li>
-                            <a href="#" class="hover:text-orange-400">
-                                RECEITAS
-                            </a>
-                        </li>
-
-
-                        <li>
-                            <a href="#" class="hover:text-orange-400">
-                                CAFÉ
-                            </a>
-                        </li>
-
-
-                        <li>
-                            <a href="#" class="hover:text-orange-400">
-                                ALMOÇO
-                            </a>
-                        </li>
-
-
-                        <li>
-                            <a href="#" class="hover:text-orange-400">
-                                JANTAR
-                            </a>
-                        </li>
-
-
-                        <li>
-                            <a href="#" class="hover:text-orange-400">
-                                SOBREMESAS
-                            </a>
-                        </li>
-
-                        <li>
-                            <p>
-                                |
-                            </p>
-                        </li>
-
-
-                        <li>
-                            <a href="#" class="hover:text-orange-400">
-                                SOBRE MIM
-                            </a>
-                        </li>
-
-                        <li>
-                            <p>
-                                |
-                            </p>
-                        </li>
-
-
-                        <li>
-                            <a href="#" class="text-lime-700 hover:text-orange-400">
-                                CONTATO
-                            </a>
-                        </li>
-
-
-                    </ul>
-
-                </nav>
+            <nav id="menu" class="absolute left-0 right-0 top-full hidden border-b border-stone-200 bg-white p-4 shadow-lg lg:static lg:block lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none">
+                <ul class="flex flex-col gap-3 font-semibold lg:flex-row lg:items-center lg:gap-5">
+                    <li><a href="/index.html" class="hover:text-orange-500">INÍCIO</a></li>
+                    <li><button type="button" data-category="Todas" class="category-nav hover:text-orange-500">RECEITAS</button></li>
+                    <li><button type="button" data-category="Café da Manhã" class="category-nav hover:text-orange-500">CAFÉ</button></li>
+                    <li><button type="button" data-category="Pratos Principais" class="category-nav hover:text-orange-500">PRATOS PRINCIPAIS</button></li>
+                    <li><button type="button" data-category="Sobremesas" class="category-nav hover:text-orange-500">SOBREMESAS</button></li>
+                    <li><a href="/cadastro.html" class="category-nav hover:text-orange-500">CADASTRAR</a></li>
+                    <li><a href="meu_contato.html" class="hover:bg-lime-800 rounded-lg bg-lime-700 px-3 py-2 text-white">CONTATO</a></li>
+                </ul>
+            </nav>
 
 
                 <button id="menu-btn" class="text-3xl text-lime-700 lg:hidden">
