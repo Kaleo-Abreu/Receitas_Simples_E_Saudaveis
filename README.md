@@ -34,16 +34,6 @@ A escolha das cores foi feita para transmitir praticidade e um estilo de vida sa
 
 - **HTML5:** Estruturação semântica da página.
 - **Tailwind CSS:** Estilização responsiva e customização por classes utilitárias.
-- **JavaScript (Opcional):** Manipulação de eventos do formulário e menu mobile.
+- **JavaScript:** Manipulação de eventos do formulário e menu mobile.
 
 ---
-
-## ✒️ Frase de Destaque
-
-> *"Comida de verdade, preparo simples e rotina saudável em um só lugar."*
-
----
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Sinta-se à vontade para utilizar como base para seus próprios estudos!
