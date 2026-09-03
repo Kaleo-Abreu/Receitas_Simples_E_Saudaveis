@@ -1,7 +1,5 @@
 # 🥗 RS&S - Receitas Simples (Blog Frontend)
 
-> Projeto desenvolvido para praticar a criação de interfaces modernas, estruturação de componentes web e estilização com **Tailwind CSS**.
-
 ---
 
 ## 📌 Sobre o Projeto
